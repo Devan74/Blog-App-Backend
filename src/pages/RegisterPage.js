@@ -1,22 +1,26 @@
 import {useState} from "react";
 import {URL} from '../App';
+import axios from 'axios';
+
 
 export default function RegisterPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   async function register(ev) {
     ev.preventDefault();
-    const response = await fetch(`${URL}/register`, {
-      method: 'POST',
-      body: JSON.stringify({username,password}),
-      headers: {'Content-Type':'application/json'},
-    });
-    if (response.status === 200) {
-      alert('registration successful');
-    } else {
-      alert('registration failed');
+    try {
+      const response = await axios.post(`${URL}/register`, { username, password });
+      if (response.status === 200) {
+        alert('Registration successful');
+      } else {
+        alert('Registration failed');
+      }
+    } catch (error) {
+      console.error('Error during registration:', error);
+      alert('Registration failed');
     }
   }
+  
   return (
     <form className="register"  onSubmit={register}>
       <h1>Register</h1>

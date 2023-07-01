@@ -4,19 +4,24 @@ import {formatISO9075} from "date-fns";
 import {UserContext} from "../UserContext";
 import {Link} from 'react-router-dom';
 import {URL} from '../App';
+import axios from 'axios';
+
 
 export default function PostPage() {
   const [postInfo,setPostInfo] = useState(null);
   const {userInfo} = useContext(UserContext);
   const {id} = useParams();
   useEffect(() => {
-    fetch(`${URL}/post/${id}`)
+    axios.get(`${URL}/post/${id}`)
       .then(response => {
-        response.json().then(postInfo => {
-          setPostInfo(postInfo);
-        });
+        const postInfo = response.data;
+        setPostInfo(postInfo);
+      })
+      .catch(error => {
+        console.error('Error retrieving post:', error);
       });
   }, []);
+  
 
   if (!postInfo) return '';
 
