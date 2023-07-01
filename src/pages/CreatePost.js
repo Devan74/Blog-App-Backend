@@ -21,6 +21,9 @@ export default function CreatePost() {
     ev.preventDefault();
     const response = await fetch(`${URL}/post`, {
       method: 'POST',
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+    },
       body: data,
       credentials: 'include',
     });

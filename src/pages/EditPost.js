@@ -33,6 +33,9 @@ export default function EditPost() {
     }
     const response = await fetch(`${URL}/post`, {
       method: 'PUT',
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+    },
       body: data,
       credentials: 'include',
     });
