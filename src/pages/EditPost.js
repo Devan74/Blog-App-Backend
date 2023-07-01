@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import {Navigate, useParams} from "react-router-dom";
 import Editor from "../Editor";
 import {URL} from '../App';
+import axios from 'axios';
 export default function EditPost() {
   const {id} = useParams();
   const [title,setTitle] = useState('');
@@ -11,39 +12,45 @@ export default function EditPost() {
   const [redirect,setRedirect] = useState(false);
 
   useEffect(() => {
-    fetch(`${URL}/post/`+id)
+    axios.get(`${URL}/post/` + id)
       .then(response => {
-        response.json().then(postInfo => {
-          setTitle(postInfo.title);
-          setContent(postInfo.content);
-          setSummary(postInfo.summary);
-        });
+        const postInfo = response.data;
+        setTitle(postInfo.title);
+        setContent(postInfo.content);
+        setSummary(postInfo.summary);
+      })
+      .catch(error => {
+        console.error('Error retrieving post:', error);
       });
   }, []);
-
+  
   async function updatePost(ev) {
     ev.preventDefault();
-    const data = new FormData();
-    data.set('title', title);
-    data.set('summary', summary);
-    data.set('content', content);
-    data.set('id', id);
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('summary', summary);
+    formData.append('content', content);
+    formData.append('id', id);
     if (files?.[0]) {
-      data.set('file', files?.[0]);
+      formData.append('file', files[0]);
     }
-    const response = await fetch("https://blog-app-z62u.onrender.com/post", {
-      method: 'PUT',
-      headers: {
-        // "Access-Control-Allow-Origin": "*",
-        'Content-type' : 'application/json'
-    },
-      body: data,
-      credentials: 'include',
-    });
-    if (response.ok) {
-      setRedirect(true);
+  
+    try {
+      const response = await axios.put(`${URL}/post`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+        withCredentials: true,
+      });
+  
+      if (response.status === 200) {
+        setRedirect(true);
+      }
+    } catch (error) {
+      console.error('Error updating post:', error);
     }
   }
+  
 
   if (redirect) {
     return <Navigate to={'/post/'+id} />

@@ -4,6 +4,8 @@ import {useState} from "react";
 import {Navigate} from "react-router-dom";
 import Editor from "../Editor";
 import {URL} from '../App';
+import axios from 'axios';
+
 
 
 export default function CreatePost() {
@@ -13,25 +15,29 @@ export default function CreatePost() {
   const [files, setFiles] = useState('');
   const [redirect, setRedirect] = useState(false);
   async function createNewPost(ev) {
-    const data = new FormData();
-    data.set('title', title);
-    data.set('summary', summary);
-    data.set('content', content);
-    data.set('file', files[0]);
     ev.preventDefault();
-    const response = await fetch("https://blog-app-z62u.onrender.com/post", {
-      method: 'POST',
-      headers: {
-        // "Access-Control-Allow-Origin": "*",
-        'Content-type' : 'application/json'
-    },
-      body: data,
-      credentials: 'include',
-    });
-    if (response.ok) {
-      setRedirect(true);
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('summary', summary);
+    formData.append('content', content);
+    formData.append('file', files[0]);
+  
+    try {
+      const response = await axios.post(`${URL}/post`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+        withCredentials: true,
+      });
+  
+      if (response.status === 200) {
+        setRedirect(true);
+      }
+    } catch (error) {
+      console.error('Error creating post:', error);
     }
   }
+  
 
   if (redirect) {
     return <Navigate to={'/'} />
