@@ -23,6 +23,7 @@ export default function CreatePost() {
       method: 'POST',
       headers: {
         "Access-Control-Allow-Origin": "*",
+        'Content-type' : 'application/json'
     },
       body: data,
       credentials: 'include',

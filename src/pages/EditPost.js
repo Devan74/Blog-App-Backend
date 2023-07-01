@@ -35,6 +35,7 @@ export default function EditPost() {
       method: 'PUT',
       headers: {
         "Access-Control-Allow-Origin": "*",
+        'Content-type' : 'application/json'
     },
       body: data,
       credentials: 'include',
