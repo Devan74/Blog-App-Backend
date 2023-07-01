@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { UserContext } from "../UserContext";
+import {URL} from '../App';
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
@@ -9,7 +10,7 @@ export default function LoginPage() {
   const { setUserInfo } = useContext(UserContext);
   async function login(ev) {
     ev.preventDefault();
-    const response = await fetch("https://blog-app-z62u.onrender.com/login", {
+    const response = await fetch(`${URL}/login`, {
       method: "POST",
       body: JSON.stringify({ username, password }),
       headers: { "Content-Type": "application/json" },

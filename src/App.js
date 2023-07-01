@@ -11,6 +11,9 @@ import CreatePost from "./pages/CreatePost";
 import PostPage from "./pages/PostPage";
 import EditPost from "./pages/EditPost";
 import 'bootstrap/dist/css/bootstrap.css';
+
+export const URL="https://blog-app-z62u.onrender.com";
+
 function App() {
   return (
     <UserContextProvider>

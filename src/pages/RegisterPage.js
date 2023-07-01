@@ -1,11 +1,12 @@
 import {useState} from "react";
+import {URL} from '../App';
 
 export default function RegisterPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   async function register(ev) {
     ev.preventDefault();
-    const response = await fetch('https://blog-app-z62u.onrender.com/register', {
+    const response = await fetch(`${URL}/register`, {
       method: 'POST',
       body: JSON.stringify({username,password}),
       headers: {'Content-Type':'application/json'},

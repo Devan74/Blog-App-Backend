@@ -1,10 +1,11 @@
 import Post from "../Post";
 import {useEffect, useState} from "react";
+import {URL} from '../App';
 
 export default function IndexPage() {
   const [posts,setPosts] = useState([]);
   useEffect(() => {
-    fetch('https://blog-app-z62u.onrender.com/post').then(response => {
+    fetch(`${URL}/post`).then(response => {
       response.json().then(posts => {
         setPosts(posts);
       });
