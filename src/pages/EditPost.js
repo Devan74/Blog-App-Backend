@@ -26,17 +26,17 @@ export default function EditPost() {
   
   async function updatePost(ev) {
     ev.preventDefault();
+  
     const formData = new FormData();
     formData.append('title', title);
     formData.append('summary', summary);
     formData.append('content', content);
-    formData.append('id', id);
     if (files?.[0]) {
       formData.append('file', files[0]);
     }
   
     try {
-      const response = await axios.put(`${URL}/post`, formData, {
+      const response = await axios.put(`${URL}/post/${id}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -50,6 +50,7 @@ export default function EditPost() {
       console.error('Error updating post:', error);
     }
   }
+  
   
 
   if (redirect) {
