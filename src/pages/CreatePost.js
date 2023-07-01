@@ -19,10 +19,10 @@ export default function CreatePost() {
     data.set('content', content);
     data.set('file', files[0]);
     ev.preventDefault();
-    const response = await fetch(`${URL}/post`, {
+    const response = await fetch("https://blog-app-z62u.onrender.com/post", {
       method: 'POST',
       headers: {
-        "Access-Control-Allow-Origin": "*",
+        // "Access-Control-Allow-Origin": "*",
         'Content-type' : 'application/json'
     },
       body: data,

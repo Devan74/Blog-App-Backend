@@ -31,10 +31,10 @@ export default function EditPost() {
     if (files?.[0]) {
       data.set('file', files?.[0]);
     }
-    const response = await fetch(`${URL}/post`, {
+    const response = await fetch("https://blog-app-z62u.onrender.com/post", {
       method: 'PUT',
       headers: {
-        "Access-Control-Allow-Origin": "*",
+        // "Access-Control-Allow-Origin": "*",
         'Content-type' : 'application/json'
     },
       body: data,
